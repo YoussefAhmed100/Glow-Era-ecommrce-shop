@@ -29,14 +29,13 @@ const ProductSchema = new mongoose.Schema(
     },
     priceAfterDiscount: {
       type: Number,
-      // required: [true, "product price after discount required"],
       min: 1,
       max: [100000000, "Too long price after discount "],
     },
     quantity: {
       type: Number,
       required: [true, "product quantity required"],
-      min: 1,
+    
     },
     sold: {
       type: Number,
@@ -46,7 +45,7 @@ const ProductSchema = new mongoose.Schema(
       type: [String],
     },
 
-    images: [{ type: String, required: true }],
+    images: [{ type: String, }],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

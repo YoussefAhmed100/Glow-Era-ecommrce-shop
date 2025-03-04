@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const upload = require("../middleWare/upload");
 const {
   createProductValidator,
   updateProductValidator,
@@ -13,17 +14,32 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../services/productService");
-const AuthService=require("../services/authServices")
+const AuthService = require("../services/authServices");
 
 router
   .route("/")
   .get(getAllProducts)
-  .post(AuthService.protect,AuthService.allowedTo("admin","manager"),createProductValidator, createProduct);
+  .post(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    upload.array("images", 5),
+    createProduct
+  );
 
-  router
+router
   .route("/:id")
-  .get(getProductValidator,getSpesificProduct) //getSpesificCategory
-  .put(AuthService.protect,AuthService.allowedTo("admin","manager"),updateProductValidator, updateProduct)
-  .delete(AuthService.protect,AuthService.allowedTo("admin","manager"),deleteProductValidator, deleteProduct);
+  .get(getProductValidator, getSpesificProduct) //getSpesificCategory
+  .put(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    updateProductValidator,
+    updateProduct
+  )
+  .delete(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    deleteProductValidator,
+    deleteProduct
+  );
 
-  module.exports = router;
+module.exports = router;

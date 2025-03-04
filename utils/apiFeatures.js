@@ -6,7 +6,6 @@ class ApiFueatures {
   //
   filter() {
     // 1- filtering
-
     const queryStingObject = { ...this.queryString }; //copying the query string object
     const excludeFilds = ["page", "sort", "limit", "fields"];
     excludeFilds.forEach((field) => delete queryStingObject[field]);
@@ -51,6 +50,7 @@ class ApiFueatures {
 
       this.mongooseQuery = this.mongooseQuery.find(query);
     }
+
     return this;
   }
   paginate(countDecuoments) {

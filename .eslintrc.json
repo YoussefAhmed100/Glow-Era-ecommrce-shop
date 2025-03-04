@@ -17,6 +17,7 @@
     "prefer-promise-reject-errors": "off",
     "eslint-disable-next-line camelcase":"off",
     "import/newline-after-import":"off",
+    "node/no-unsupported-features/es-syntax":"off",
 
     "lines-between-class-members": "off",
     "no-undef": "error",

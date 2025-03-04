@@ -101,41 +101,7 @@ exports.updateOrderToDelivered = asynchandler(async (req, res, next) => {
 // @desc get checkout stripe and send it as a response
 // @route   GET /api/v1/orders/checkout-session/:cartId
 // @access Proteect/User
-// exports.checkoutSession = asynchandler(async (req, res, next) => {
-//   // app setings => admin
-//   const taxPrice = 0;
-//   const shippingPrice = 0;
-//   // 1) get cart depend on cartId
-//   const cart = await CartModel.findById(req.params.cartId);
-//   if (!cart) {
-//     return next(new ApiError("No cart found", 404));
-//   }
 
-//   // 2)get total order price depend on cart price
-//   const cartPrice = cart.totalPrice;
-//   const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
-
-//   // 3) create checkout session
-//   const session = await stripe.checkout.sessions.create({
-//     line_items: [
-//       {
-//         name: req.user.fristName,
-//         amount: totalOrderPrice * 100, // cents 0.10
-//         currency: "usd",
-//         quantity: 1,
-//       },
-//     ],
-//     mode: "payment",
-//     success_url: `${req.protocol}://${req.get("host")}/orders`,
-//     cancel_url: `${req.protocol}://${req.get("host")}/cart`,
-//     customer_email: req.user.email,
-//     client_reference_id: req.params.cartId,
-//     metadata: req.body.shippingAddress,
-//   });
-
-//   // 4) return checkout session to response
-//   res.status(200).json({ status: "success", data: session });
-// });
 exports.checkoutSession = asynchandler(async (req, res, next) => {
   // App settings (Admin)
   const taxPrice = 0;

@@ -31,7 +31,40 @@ const getSpesificProduct = factory.getOne(ProductModel);
 // @desc create Product
 // @route POST /api/products
 // @access Private
-const createProduct = factory.createOne(ProductModel);
+// const createProduct = factory.createOne(ProductModel);
+
+
+ const createProduct = async (req, res) => {
+  try {
+    const { title, description, price, category, quantity } = req.body;
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "Product images are required" });
+    }
+
+    const imageUrls = req.files.map((file) => file.path); // استخراج روابط الصور
+
+    const newProduct = new ProductModel({
+      title,
+      description,
+      price,
+      category,
+      quantity,
+      images: imageUrls, // حفظ روابط الصور في الـ DB
+    });
+
+    await newProduct.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      product: newProduct,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 //@desc Ubdate spesific Product
 //@route PUT /api/Product/:id

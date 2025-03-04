@@ -71,6 +71,7 @@ exports.createProductValidator = [
         }
       })
     ),
+  
      
   //@ desc middleware for validation
   validationMiddleware,
