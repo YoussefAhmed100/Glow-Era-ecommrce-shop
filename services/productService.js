@@ -25,7 +25,7 @@ const getAllProducts = factory.getAll(ProductModel)
 //@desc get spesific Product :id
 //@route GET /api/products /:id
 //access public
-const getSpesificProduct = factory.getOne(ProductModel);
+const getSpesificProduct = factory.getOne(ProductModel,"reviews");
 
 
 // @desc create Product
@@ -42,7 +42,7 @@ const getSpesificProduct = factory.getOne(ProductModel);
       return res.status(400).json({ message: "Product images are required" });
     }
 
-    const imageUrls = req.files.map((file) => file.path); // استخراج روابط الصور
+    const imageUrls = req.files.map((file) => file.path); //get image urls from req.files
 
     const newProduct = new ProductModel({
       title,
@@ -50,7 +50,7 @@ const getSpesificProduct = factory.getOne(ProductModel);
       price,
       category,
       quantity,
-      images: imageUrls, // حفظ روابط الصور في الـ DB
+      images: imageUrls, 
     });
 
     await newProduct.save();

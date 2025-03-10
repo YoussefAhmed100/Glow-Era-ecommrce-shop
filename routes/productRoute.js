@@ -1,11 +1,16 @@
 const router = require("express").Router();
 const upload = require("../middleWare/upload");
+const reviewRoute = require("./reviewRoute");
 const {
   createProductValidator,
   updateProductValidator,
   deleteProductValidator,
   getProductValidator,
 } = require("../utils/validators/productValidator");
+// nested route
+// Post  /products/qwrrfvkv,cc/review
+
+router.use("/:productId/reviews", reviewRoute);
 
 const {
   getAllProducts,
@@ -16,15 +21,13 @@ const {
 } = require("../services/productService");
 const AuthService = require("../services/authServices");
 
-router
-  .route("/")
-  .get(getAllProducts)
-  .post(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    upload.array("images", 5),
-    createProduct
-  );
+router.route("/").get(getAllProducts).post(
+  AuthService.protect,
+  AuthService.allowedTo("admin", "manager"),
+
+  upload.array("images", 5),
+  createProduct
+);
 
 router
   .route("/:id")

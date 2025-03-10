@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 
 require("dotenv").config();
 const cors = require("cors");
@@ -19,7 +20,8 @@ const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
 const orderRoute = require("./routes/orderRoute");
-const app = express();
+const reviewRoute = require("./routes/reviewRoute");
+
 // enable other domains to access our server
 app.use(cors())
 app.options('*',cors())
@@ -46,6 +48,7 @@ app.use("/api/v1/products", productRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/carts", cartRoute);
 app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/reviews", reviewRoute);
 
 //Error handling  Middleware
 app.all("*", (req, res, next) => {
@@ -53,6 +56,8 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(globalError);
+
+//start server
 
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {

@@ -35,7 +35,6 @@ const ProductSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: [true, "product quantity required"],
-    
     },
     sold: {
       type: Number,
@@ -45,7 +44,7 @@ const ProductSchema = new mongoose.Schema(
       type: [String],
     },
 
-    images: [{ type: String, }],
+    images: [{ type: String }],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -61,14 +60,21 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    reviews: {
-      type: [String],
-      default: 0,
-    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    // enable virtuals population
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 // mongoose query middleware
+// get all reviews for this product
+ProductSchema.virtual("reviews", {//populate from perent to child 
+  ref: "Review",
+  foreignField: "product",
+  localField: "_id",
+});
 ProductSchema.pre(/^find/, function (next) {
   this.populate({
     path: "category",
@@ -76,5 +82,6 @@ ProductSchema.pre(/^find/, function (next) {
   });
   next();
 });
+
 const ProductModel = mongoose.model("Product", ProductSchema);
 module.exports = ProductModel;
