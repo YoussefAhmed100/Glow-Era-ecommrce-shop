@@ -50,7 +50,7 @@ const ProductSchema = new mongoose.Schema(
       ref: "Category",
       required: [true, "Product must be belong category "],
     },
-    rating: {
+    ratingAvarage: {
       type: Number,
       default: 0,
       min: [0, "Rating must be between 1.0 and 5.0"],
@@ -70,7 +70,8 @@ const ProductSchema = new mongoose.Schema(
 );
 // mongoose query middleware
 // get all reviews for this product
-ProductSchema.virtual("reviews", {//populate from perent to child 
+ProductSchema.virtual("reviews", {
+  //populate from perent to child
   ref: "Review",
   foreignField: "product",
   localField: "_id",

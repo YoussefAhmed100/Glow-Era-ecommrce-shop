@@ -61,7 +61,6 @@ exports.updateReviewValidator = [
       return true;
     }),
 
-  // التحقق من أن المستخدم يملك المراجعة قبل التحديث
 
   validationMiddleware,
 ];
@@ -84,7 +83,7 @@ exports.deleteReviewValidator = [
         if (!review) {
           throw new Error("Review not found");
         }
-        if (review.user.toString() !== req.user._id.toString()) {
+        if (review.user._id.toString() !== req.user._id.toString()) {
           throw new Error("You can only delete your own review");
         }
         return true;

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const upload = require("../middleWare/upload");
 const reviewRoute = require("./reviewRoute");
 const {
-  createProductValidator,
+  // createProductValidator,
   updateProductValidator,
   deleteProductValidator,
   getProductValidator,
