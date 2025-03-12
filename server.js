@@ -21,6 +21,7 @@ const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
 const orderRoute = require("./routes/orderRoute");
 const reviewRoute = require("./routes/reviewRoute");
+const wishlistRoute = require("./routes/wishlistRoute");
 
 // enable other domains to access our server
 app.use(cors())
@@ -49,6 +50,7 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/carts", cartRoute);
 app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/reviews", reviewRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
 
 //Error handling  Middleware
 app.all("*", (req, res, next) => {

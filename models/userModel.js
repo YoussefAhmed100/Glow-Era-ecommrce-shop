@@ -28,8 +28,8 @@ const userSchema = mongoose.Schema(
       required: [true, "Please enter your password"],
       minLength: [6, "password must be up to 6 character"],
     },
-    passwordChangedAt:{
-      type:Date
+    passwordChangedAt: {
+      type: Date,
     },
     // passwordResetCode:{
     //   type: String
@@ -41,12 +41,23 @@ const userSchema = mongoose.Schema(
     //   type: Boolean,
     //   default: false
     // },
-    
+
     role: {
       type: String,
-      enum: ["admin","manager", "user"],
+      enum: ["admin", "manager", "user"],
       default: "user",
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
+    // chiled refrance {one to many}
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",// reference to the Product model
+      },
+    ],
   },
   { timestamps: true }
 );
