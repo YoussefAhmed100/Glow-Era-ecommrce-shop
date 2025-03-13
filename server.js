@@ -23,6 +23,7 @@ const orderRoute = require("./routes/orderRoute");
 const reviewRoute = require("./routes/reviewRoute");
 const wishlistRoute = require("./routes/wishlistRoute");
 const addressRoute = require("./routes/addressRoute");
+const couponRoute = require("./routes/couponRoute");
 
 // enable other domains to access our server
 app.use(cors())
@@ -53,6 +54,7 @@ app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/reviews", reviewRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
 app.use("/api/v1/addresses", addressRoute);
+app.use("/api/v1/coupons", couponRoute);
 
 //Error handling  Middleware
 app.all("*", (req, res, next) => {
