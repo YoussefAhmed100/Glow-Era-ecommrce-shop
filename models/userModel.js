@@ -58,6 +58,16 @@ const userSchema = mongoose.Schema(
         ref: "Product",// reference to the Product model
       },
     ],
+    addresses:[
+      {
+        id:{type:mongoose.Schema.Types.ObjectId},
+        alise:String,
+        details:String,
+        city:String,
+        phone:String,
+        postalCode:String,
+      }
+    ]
   },
   { timestamps: true }
 );
