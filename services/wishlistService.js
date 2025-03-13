@@ -48,8 +48,8 @@ exports.removeProductFromWishlist = asynchandler(async (req, res, next) => {
   });
 });
 
-// @desc remove product from wishlist
-// @route DELETE /api/wishlist
+// @desc get product from wishlist
+// @route  GET/api/wishlist
 // @access Protected/User
 exports.getLoggedUserWishlist = asynchandler(async (req, res, next) => {
   const user = await UserModel.findById(req.user._id).populate("wishlist");
