@@ -3,8 +3,7 @@ const app = express();
 
 require("dotenv").config();
 const cors = require("cors");
-const compression = require('compression')
-
+const compression = require("compression");
 
 // const dotenv = require("dotenv");
 const morgan = require("morgan");
@@ -14,22 +13,12 @@ const databaseConction = require("./config/DBconction");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middleWare/errorMiddleWare");
 // Routes
-const categoryRoute = require("./routes/categoryRoute");
-const cartRoute = require("./routes/cartRoute");
-const productRoute = require("./routes/productRoute");
-const userRoute = require("./routes/userRoute");
-const authRoute = require("./routes/authRoute");
-const orderRoute = require("./routes/orderRoute");
-const reviewRoute = require("./routes/reviewRoute");
-const wishlistRoute = require("./routes/wishlistRoute");
-const addressRoute = require("./routes/addressRoute");
-const couponRoute = require("./routes/couponRoute");
-
+const mountRoutes = require("./routes");
 // enable other domains to access our server
-app.use(cors())
-app.options('*',cors())
+app.use(cors());
+app.options("*", cors());
 // compress all responses
-app.use(compression())
+app.use(compression());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -45,16 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Mount Routes
-app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/categories", categoryRoute);
-app.use("/api/v1/products", productRoute);
-app.use("/api/v1/users", userRoute);
-app.use("/api/v1/carts", cartRoute);
-app.use("/api/v1/orders", orderRoute);
-app.use("/api/v1/reviews", reviewRoute);
-app.use("/api/v1/wishlist", wishlistRoute);
-app.use("/api/v1/addresses", addressRoute);
-app.use("/api/v1/coupons", couponRoute);
+mountRoutes(app);
 
 //Error handling  Middleware
 app.all("*", (req, res, next) => {
