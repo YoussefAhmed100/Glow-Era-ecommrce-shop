@@ -3,12 +3,12 @@ const { check, body } = require("express-validator");
 const validationMiddleware = require("../../middleWare/validatorMiddleware");
 const validatorMiddleware = require("../../middleWare/validatorMiddleware");
 
-const validateCouponId = check("couponId")
+const validateCouponId = check("id")
   .isMongoId()
   .withMessage("Invalid coupon ID format");
 
-exports.getCouponValidator = [validateCouponId,validatorMiddleware];
-exports.deleteCouponValidator = [validateCouponId,validatorMiddleware];
+exports.getCouponValidator = [validateCouponId, validatorMiddleware];
+exports.deleteCouponValidator = [validateCouponId, validatorMiddleware];
 
 exports.createCouponValidator = [
   // ruls
@@ -24,8 +24,7 @@ exports.createCouponValidator = [
   check("expire")
     .notEmpty()
     .withMessage("Coupon expiration date is required")
-    .isISO8601()
-    .withMessage("Invalid date format, use YYYY-MM-DD")
+
     .isAfter(new Date().toISOString())
     .withMessage("Expiration date must be in the future"),
   check("discount")
@@ -51,8 +50,7 @@ exports.updateCouponValidator = [
 
   body("expire")
     .optional()
-    .isISO8601()
-    .withMessage("Invalid date format, use YYYY-MM-DD")
+
     .isAfter(new Date().toISOString())
     .withMessage("Expiration date must be in the future"),
 
@@ -63,4 +61,3 @@ exports.updateCouponValidator = [
 
   validationMiddleware,
 ];
-

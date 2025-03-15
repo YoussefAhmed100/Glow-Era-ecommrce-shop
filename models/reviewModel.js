@@ -62,7 +62,7 @@ reviewSchema.post("save", async function () {
   await this.constructor.calculateAvgRatingAndQuantity(this.product);
 });
 // whin delete a review, update the product rating and quantity
-reviewSchema.post("remove", async function () {
+reviewSchema.post("deleteOne", async function () {
   await this.constructor.calculateAvgRatingAndQuantity(this.product);
 });
 

@@ -19,7 +19,7 @@ router.use(AuthService.protect, AuthService.allowedTo("admin", "manager"));
 router.route("/").get(getAllCoupons).post(createCouponValidator, createCoupon);
 
 router
-  .route("/:couponId")
+  .route("/:id")
   .get(getCouponValidator, getSpesificCoupon)
   .put(updateCouponValidator, updateCoupon)
   .delete(deleteCouponValidator , deleteCoupon);

@@ -2,6 +2,7 @@ const slugify = require("slugify");
 const { check, body } = require("express-validator");
 const validationMiddleware = require("../../middleWare/validatorMiddleware");
 const ReviewModel = require("../../models/reviewModel");
+const ProductModel = require("../../models/productModel");
 
 exports.createReviewValidator = [
   check("title")
@@ -18,12 +19,20 @@ exports.createReviewValidator = [
     .withMessage("Rating is required")
     .isFloat({ min: 1, max: 5 })
     .withMessage("Rating must be between 1 and 5"),
-
   check("product")
     .notEmpty()
     .withMessage("Product is required")
     .isMongoId()
     .withMessage("Invalid product ID format")
+    .custom(async (productId) => {
+      const product = await ProductModel.findById(productId);
+      if (!product) {
+        return Promise.reject(
+          new Error(`No product found with ID: ${productId}`)
+        );
+      }
+      return true;
+    })
     .custom(async (val, { req }) => {
       const review = await ReviewModel.findOne({
         user: req.user._id,
@@ -32,7 +41,7 @@ exports.createReviewValidator = [
       if (review) {
         throw new Error("User already reviewed this product");
       }
-      return true; 
+      return true;
     }),
 
   check("user").isMongoId().withMessage("Invalid user ID format"),
@@ -60,7 +69,6 @@ exports.updateReviewValidator = [
       req.body.slug = slugify(value);
       return true;
     }),
-
 
   validationMiddleware,
 ];

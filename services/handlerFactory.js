@@ -5,13 +5,14 @@ const ApiFueatures = require("../utils/apiFeatures");
 exports.deleteOne = (Model) =>
   asynchandler(async (req, res, next) => {
     const { id } = req.params;
-    const document = await Model.findByIdAndDelete(id);
+    const document = await Model.findById(id);
 
     if (!document) {
       return next(new ApiError(`No document for this id: ${id}`, 404));
     }
-    document.remove()
-    res.status(200).json({ message: "document deleted successfully " });
+
+    await document.deleteOne();
+    res.status(200).json({ message: "document deleted successfully" });
   });
 
 exports.updateOne = (Model) =>
@@ -24,8 +25,10 @@ exports.updateOne = (Model) =>
         new ApiError(`No document for this id:${req.params.id}`, 404)
       );
     }
-    document.save();
-    res.status(200).json({message: "document updated successfully ", data: document });
+    await document.save();
+    res
+      .status(200)
+      .json({ message: "document updated successfully ", data: document });
   });
 
 exports.createOne = (Model) =>
