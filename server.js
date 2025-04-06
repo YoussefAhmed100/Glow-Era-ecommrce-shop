@@ -45,9 +45,10 @@ app.use(globalError);
 
 //start server
 
+
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
-  console.log(`Backend server is running on port:${PORT}`.green.inverse);
+  console.log(`Backend server is running on http://localhost:${PORT}`.green.inverse);
 });
 
 // Event =>listen => callback(err) => outside express

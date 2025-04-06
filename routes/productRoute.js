@@ -1,4 +1,6 @@
-const router = require("express").Router();
+//mergeParams:allow us to access the params object directly
+// ex: we need to access category id from category routers
+const router = require("express").Router({ mergeParams: true });
 const upload = require("../middleWare/upload");
 const reviewRoute = require("./reviewRoute");
 const {
@@ -18,10 +20,11 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  createFilterObject,
 } = require("../services/productService");
 const AuthService = require("../services/authServices");
 
-router.route("/").get(getAllProducts).post(
+router.route("/").get(createFilterObject, getAllProducts).post(
   AuthService.protect,
   AuthService.allowedTo("admin", "manager"),
 

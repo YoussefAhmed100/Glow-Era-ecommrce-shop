@@ -11,6 +11,10 @@ const couponRoute = require("./couponRoute");
 
 
 const mountRoutes = (app) => {
+  // 
+  app.get("/",(req,res)=>{
+    res.send("amazon clone server is running");
+  })
   app.use("/api/v1/auth", authRoute);
   app.use("/api/v1/categories", categoryRoute);
   app.use("/api/v1/products", productRoute);

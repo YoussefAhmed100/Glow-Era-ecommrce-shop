@@ -1,27 +1,23 @@
 const ProductModel = require("../models/productModel");
 const factory = require("./handlerFactory");
 
+
+// apply nested routes to get allproducts 
+//@route GET /api/v1/categores/:categoryId/products
+const createFilterObject = (req, res, next) => {
+  let filterObject = {};
+  if (req.params.categoryId) {
+    filterObject = { category: req.params.categoryId };//ا
+  }
+  req.filterObj = filterObject;
+  next();
+};
+
 //@desc get list of Products
 //@route GET /api/products
 //access public
 const getAllProducts = factory.getAll(ProductModel)
-// const getAllProducts = asynchandler(async (req, res) => {
-//   const countDecuoments = await ProductModel.countDocuments();
-//   // Build query
-//   const apiFeatures = new ApiFueatures(ProductModel.find(), req.query)
-//     .paginate(countDecuoments)
-//     .filter()
-//     .limitFields()
-//     .sort()
-//     .search();
 
-//   // Execute query
-//   const { mongooseQuery, paginateResult } = apiFeatures;
-//   const products = await mongooseQuery;
-//   res
-//     .status(200)
-//     .json({ results: products.length, paginateResult, data: products });
-// });
 //@desc get spesific Product :id
 //@route GET /api/products /:id
 //access public
@@ -31,7 +27,6 @@ const getSpesificProduct = factory.getOne(ProductModel,"reviews");
 // @desc create Product
 // @route POST /api/products
 // @access Private
-// const createProduct = factory.createOne(ProductModel);
 
 
  const createProduct = async (req, res) => {
@@ -83,4 +78,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  createFilterObject
 };

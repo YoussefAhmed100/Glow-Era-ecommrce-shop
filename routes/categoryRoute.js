@@ -6,6 +6,8 @@ const {
   deleteCategoryValidator,
 } = require("../utils/validators/categoryValidator");
 const AuthService=require("../services/authServices")
+const productRoute=require("./productRoute")
+
 
 const {
   getAllCategories,
@@ -14,6 +16,8 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../services/categoryService");
+// Nested routes
+router.use("/:categoryId/products",productRoute); 
 
 router
   .route("/")

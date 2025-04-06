@@ -9,7 +9,7 @@ const getAllCategories=factory.getAll(CategoryModel)
 //@desc get spesific categories :id
 //@route GET /api/category/:id
 //access public
-const getSpesificCategory =factory.getOne(CategoryModel)
+const getSpesificCategory =factory.getOne(CategoryModel,"products")
 
 
 // @desc create category
