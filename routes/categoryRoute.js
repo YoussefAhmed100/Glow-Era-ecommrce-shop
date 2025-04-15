@@ -17,7 +17,7 @@ const {
   deleteCategory,
 } = require("../services/categoryService");
 // Nested routes
-router.use("/:categoryId/products",productRoute); 
+router.use("/:categoryId/allproducts",productRoute); 
 
 router
   .route("/")

@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "prod": "cross-env NODE_ENV = production node server.js"
   },
   "keywords": [],
