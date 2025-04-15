@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "prod": "cross-env NODE_ENV = production node server.js"
+    "prod": "cross-env NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
-    "cloudinary": "^2.5.1",
+    "cloudinary": "^1.41.3",
     "colors": "^1.4.0",
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
