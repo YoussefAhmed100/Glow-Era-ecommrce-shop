@@ -22,7 +22,10 @@ app.use(compression());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
-  console.log(`mode:${process.env.NODE_ENV}`);
+  console.log(`mode: ${process.env.NODE_ENV}`);
+} else if (process.env.NODE_ENV === "production") {
+   app.use(morgan("combined"));
+  console.log(`mode: ${process.env.NODE_ENV}`);
 }
 
 // databaseConction
@@ -44,7 +47,6 @@ app.all("*", (req, res, next) => {
 app.use(globalError);
 
 //start server
-
 
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT,'0.0.0.0', () => {
