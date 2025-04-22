@@ -22,7 +22,7 @@ const calculateTotalCartPrice = (cart) => {
 // @route POST /api/v1/carts
 // @access Private/User
 exports.addProductToCart = asynchandler(async (req, res, next) => {
-  const { productId, size } = req.body;
+  const { productId, size, quantity } = req.body;
   // 2) check if product exists
   const product = await productModel.findById(productId);
   // 1) get cart for logged user
@@ -30,7 +30,8 @@ exports.addProductToCart = asynchandler(async (req, res, next) => {
   if (!cart) {
     cart = await cartModel.create({
       user: req.user.id,
-      cartItems: [{ product: productId, size, price: product.price }],
+
+      cartItems: [{ product: productId, size, price: product.price ,quantity}],
     });
   } else {
     // 3) check if product already exists in cart update quantity
