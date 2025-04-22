@@ -40,7 +40,7 @@ exports.addProductToCart = asynchandler(async (req, res, next) => {
     );
     if (poductAlreadyExists > -1) {
       const cartItem = cart.cartItems[poductAlreadyExists];
-      cartItem.quantity += 1;
+      cartItem.quantity +=quantity||1 ;
       cart.cartItems[poductAlreadyExists] = cartItem;
     } else {
       // 4) if product does not exist in cart , push product to cartItems array
