@@ -7,13 +7,29 @@ const CartModel = require("../models/cartModel");
 const ProductModel = require("../models/productModel");
 const factory = require("./handlerFactory");
 
+// @desc helper function to decrement product quantity ,increment product sold depend on quantity
+const updateProductInventory = async (cartItems) => {
+  const bulkOptions = cartItems.map((item) => ({
+    updateOne: {
+      filter: { _id: item.product },
+      update: {
+        $inc: {
+          quantity: -item.quantity,
+          sold: +item.quantity,
+        },
+      },
+    },
+  }));
+  await ProductModel.bulkWrite(bulkOptions,{});
+};
+
 // @desc create cash order
 // @route POST /api/v1/orders/cartId
 // @access Private/User
 exports.createCashOrder = asynchandler(async (req, res, next) => {
   // app setings => admin
-  const taxPrice = 0;
-  const shippingPrice = 0;
+  const TAX_PRICE = 0;
+  const SHIPPING_PRICE = 0;
   // 1) get cart depend on cartId
   const cart = await CartModel.findById(req.params.cartId);
   if (!cart) {
@@ -22,25 +38,19 @@ exports.createCashOrder = asynchandler(async (req, res, next) => {
 
   // 2)get order price depend on cart price
   const cartPrice = cart.totalPrice;
-  const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
+  const totalOrderPrice = cartPrice +TAX_PRICE + SHIPPING_PRICE;
   // 3) create new order with defult pyment methode cash
   const newOrder = await orderModel.create({
     user: req.user._id,
     cartItems: cart.cartItems,
     shippingAddress: req.body.shippingAddress,
-    taxPrice,
-    shippingPrice,
+    taxPrice:TAX_PRICE ,
+    shippingPrice:SHIPPING_PRICE,
     totalOrderPrice,
   });
   // 4) after create order decrement product quantity ,increment product sold depend on quantity
   if (newOrder) {
-    const bulkOption = cart.cartItems.map((item) => ({
-      updateOne: {
-        filter: { _id: item.product },
-        update: { $inc: { quantity: -item.quantity, sold: +item.quantity } },
-      },
-    }));
-    await ProductModel.bulkWrite(bulkOption, {});
+   await updateProductInventory(cart.cartItems);
     //5) clear cart after order created
     await CartModel.findByIdAndDelete(req.params.cartId);
   }

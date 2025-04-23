@@ -125,7 +125,7 @@ exports.updateCartItemQuantity = asynchandler(async (req, res, next) => {
   const cart = await cartModel.findOne({ user: req.user._id });
   if (!cart) {
     return next(
-      new ApiError(`No cart found for this user ${req.user._id}`, 404)
+      new ApiError(`No cart found for this user`, 404)
     );
   }
   const itemIndex = cart.cartItems.findIndex(
