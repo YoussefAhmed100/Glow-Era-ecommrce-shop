@@ -6,12 +6,8 @@ const jwt = require("jsonwebtoken");
 const ApiError = require("../utils/apiError");
 const UserModel = require("../models/userModel");
 const sendEmail = require("../utils/sendEmail");
+const generateTokens = require("../utils/generateTokens");
 
-//helper function to generate jwt token
-const genrateToken = (payload) =>
-  jwt.sign({ userId: payload }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE_TIME,
-  });
 // @desc sinup
 // @route POST /api/v1/auth/signup
 // @access public
@@ -22,11 +18,17 @@ exports.signup = asynchandler(async (req, res, next) => {
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
-    role: req.body.role
+    role: req.body.role,
   });
   //2- genrate token
-  const token = genrateToken(newUser._id);
-  res.status(201).json({ data: newUser, token });
+  const { accessToken, refreshToken } = generateTokens(newUser._id);
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: process.env.COOKIE_MAX_AGE,
+  });
+  res.status(201).json({ data: newUser, accessToken });
 });
 // @desc login
 // @route POST /api/v1/auth/login
@@ -38,9 +40,19 @@ exports.login = asynchandler(async (req, res, next) => {
     return next(new ApiError("Invalid email or password", 401));
   }
   //2- genrate token
-  const token = genrateToken(user._id);
-  res.status(200).json({ data: user, token });
+  const { accessToken, refreshToken } = generateTokens(user._id);
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: process.env.COOKIE_MAX_AGE
+  });
+
+  res.status(200).json({ data: user, accessToken });
 });
+
+
 // @desc make sure user is logged in
 exports.protect = asynchandler(async (req, res, next) => {
   //1) get token from header
@@ -125,5 +137,8 @@ exports.forgotPassword = asynchandler(async (req, res, next) => {
   });
   res
     .status(200)
-    .json({status:"Success", message: `Password reset code sent to ${user.email}` });
+    .json({
+      status: "Success",
+      message: `Password reset code sent to ${user.email}`,
+    });
 });

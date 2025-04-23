@@ -20,6 +20,7 @@ app.options("*", cors());
 // compress all responses
 app.use(compression());
 
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
   console.log(`mode: ${process.env.NODE_ENV}`);
