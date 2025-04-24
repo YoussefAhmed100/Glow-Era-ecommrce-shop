@@ -15,7 +15,7 @@ const globalError = require("./middleWare/errorMiddleWare");
 
 // enable other domains to access our server
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "*",
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: false,
@@ -65,7 +65,7 @@ const server = app.listen(PORT,'0.0.0.0', () => {
 
 // Event =>listen => callback(err) => outside express
 process.on("unhandledRejection", (err) => {
-  console.error(`unhandledRejection Errors ${err.name} ||  ${err.massage}`);
+  console.error(`unhandledRejection Errors ${err.name} ||  ${err.message}`);
   server.close(() => {
     process.exit(1);
   });
