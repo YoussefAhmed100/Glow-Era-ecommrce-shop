@@ -31,7 +31,7 @@ const getSpesificProduct = factory.getOne(ProductModel,"reviews");
 
  const createProduct = async (req, res) => {
   try {
-    const { title, description, price, category, quantity } = req.body;
+    const { title, description, price, category, quantity ,size} = req.body;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: "Product images are required" });
@@ -45,6 +45,7 @@ const getSpesificProduct = factory.getOne(ProductModel,"reviews");
       price,
       category,
       quantity,
+      size,
       images: imageUrls, 
     });
 
