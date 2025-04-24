@@ -14,17 +14,11 @@ const ApiError = require("./utils/apiError");
 const globalError = require("./middleWare/errorMiddleWare");
 
 // enable other domains to access our server
-// app.use(cors());
-// app.options("*", cors());
-app.use(cors({
-  origin: "http://localhost:5173", // أو رابط الفرونت
-  credentials: true,
-}));
+app.use(cors());
+app.options("*", cors());
 
-// app.options("*", cors({
-//   origin: "http://localhost:5173",
-//   credentials: true
-// }));
+
+
 // compress all responses
 app.use(compression())
 // Routes
@@ -44,7 +38,7 @@ databaseConction();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Mount Routes
 mountRoutes(app);

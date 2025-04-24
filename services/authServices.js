@@ -21,13 +21,8 @@ exports.signup = asynchandler(async (req, res, next) => {
     role: req.body.role,
   });
   //2- genrate token
-  const { token, refreshToken } = generateTokens(newUser._id);
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: false, //process.env.NODE_ENV === "production",
-    sameSite: "Lax",
-    maxAge: process.env.COOKIE_MAX_AGE,
-  });
+  const token = generateTokens(newUser._id);
+
   res.status(201).json({ data: newUser, token });
 });
 // @desc login
@@ -40,14 +35,9 @@ exports.login = asynchandler(async (req, res, next) => {
     return next(new ApiError("Invalid email or password", 401));
   }
   //2- genrate token
-  const { token, refreshToken } = generateTokens(user._id);
+  const token = generateTokens(user._id);
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
-    maxAge: process.env.COOKIE_MAX_AGE,
-  });
+
 
   res.status(200).json({ data: user, token });
 });
