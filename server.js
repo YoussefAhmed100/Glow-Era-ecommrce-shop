@@ -8,14 +8,14 @@ const compression = require("compression");
 // const dotenv = require("dotenv");
 const morgan = require("morgan");
 
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 const databaseConction = require("./config/DBconction");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middleWare/errorMiddleWare");
 
 // enable other domains to access our server
 app.use(cors());
-app.options("*", cors());
+// app.options("*", cors());
 
 
 
