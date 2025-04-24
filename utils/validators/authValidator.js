@@ -6,7 +6,7 @@ const userModel = require("../../models/userModel");
 
 exports.signupValidator = [
   // ruls
-  check("fristName")
+  check("firstName")
     .notEmpty()
     .withMessage(" firs name is required")
     .withMessage("first name must be between 3 and 50 characters")

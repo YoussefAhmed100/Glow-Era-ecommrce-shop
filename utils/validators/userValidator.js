@@ -7,9 +7,9 @@ const userModel = require("../../models/userModel");
 
 exports.createUserValidator = [
   // ruls
-  check("fristName")
+  check("firstName")
     .notEmpty()
-    .withMessage(" firs name is required")
+    .withMessage(" first name is required")
     .withMessage("first name must be between 3 and 50 characters")
     .custom((value, { req }) => {
       req.body.slug = slugify(value);

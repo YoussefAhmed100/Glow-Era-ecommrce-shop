@@ -27,7 +27,7 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 reviewSchema.pre(/^find/, function (next) {
-  this.populate({ path: "user", select: "fristName lastName " });
+  this.populate({ path: "user", select: "firstName lastName " });
   next();
 });
 reviewSchema.statics.calculateAvgRatingAndQuantity = async function (
