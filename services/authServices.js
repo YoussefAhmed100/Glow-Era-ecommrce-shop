@@ -14,7 +14,7 @@ const generateTokens = require("../utils/generateTokens");
 exports.signup = asynchandler(async (req, res, next) => {
   //1- create user
   const newUser = await UserModel.create({
-    fristName: req.body.fristName,
+    firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,

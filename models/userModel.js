@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema(
   {
-    fristName: {
+    firstName: {
       type: String,
       trim: true,
       required: [true, "Please enter your frist name"],
