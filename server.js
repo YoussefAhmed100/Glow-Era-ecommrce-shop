@@ -16,7 +16,6 @@ const globalError = require("./middleWare/errorMiddleWare");
 const mountRoutes = require("./routes");
 // enable other domains to access our server
 app.use(cors({
-  origin: "http://localhost:5500", // أو رابط الـ frontend بتاعك
   credentials: true
 }));
 app.options("*", cors());
