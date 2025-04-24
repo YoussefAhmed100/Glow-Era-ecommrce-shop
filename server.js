@@ -15,9 +15,7 @@ const globalError = require("./middleWare/errorMiddleWare");
 // Routes
 const mountRoutes = require("./routes");
 // enable other domains to access our server
-app.use(cors({
-  credentials: true
-}));
+app.use(cors());
 app.options("*", cors());
 // compress all responses
 app.use(compression());
