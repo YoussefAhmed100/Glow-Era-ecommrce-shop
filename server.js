@@ -21,10 +21,10 @@ app.use(cors({
   credentials: true,
 }));
 
-app.options("*", cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+// app.options("*", cors({
+//   origin: "http://localhost:5173",
+//   credentials: true
+// }));
 // compress all responses
 app.use(compression())
 // Routes

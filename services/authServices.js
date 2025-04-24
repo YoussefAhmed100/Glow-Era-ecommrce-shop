@@ -21,14 +21,14 @@ exports.signup = asynchandler(async (req, res, next) => {
     role: req.body.role,
   });
   //2- genrate token
-  const {token, refreshToken } = generateTokens(newUser._id);
+  const { token, refreshToken } = generateTokens(newUser._id);
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: false, //process.env.NODE_ENV === "production",
+    sameSite: "Lax",
     maxAge: process.env.COOKIE_MAX_AGE,
   });
-  res.status(201).json({ data: newUser,token});
+  res.status(201).json({ data: newUser, token });
 });
 // @desc login
 // @route POST /api/v1/auth/login
@@ -45,13 +45,12 @@ exports.login = asynchandler(async (req, res, next) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: process.env.COOKIE_MAX_AGE
+    sameSite: "None",
+    maxAge: process.env.COOKIE_MAX_AGE,
   });
 
   res.status(200).json({ data: user, token });
 });
-
 
 // @desc make sure user is logged in
 exports.protect = asynchandler(async (req, res, next) => {
@@ -135,10 +134,8 @@ exports.forgotPassword = asynchandler(async (req, res, next) => {
     subject: "Reset Password",
     message: `Hi ${user.fristName},\n Your password reset code on your Glow Era account is:\n ${resetCode}\n Please use it within 10 minutes to reset your password.`,
   });
-  res
-    .status(200)
-    .json({
-      status: "Success",
-      message: `Password reset code sent to ${user.email}`,
-    });
+  res.status(200).json({
+    status: "Success",
+    message: `Password reset code sent to ${user.email}`,
+  });
 });
