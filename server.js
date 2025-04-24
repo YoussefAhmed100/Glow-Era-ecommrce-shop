@@ -12,14 +12,23 @@ const cookieParser = require("cookie-parser");
 const databaseConction = require("./config/DBconction");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middleWare/errorMiddleWare");
+
+// enable other domains to access our server
+// app.use(cors());
+// app.options("*", cors());
+app.use(cors({
+  origin: "http://localhost:5173", // أو رابط الفرونت
+  credentials: true,
+}));
+
+app.options("*", cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+// compress all responses
+app.use(compression())
 // Routes
 const mountRoutes = require("./routes");
-// enable other domains to access our server
-app.use(cors());
-app.options("*", cors());
-// compress all responses
-app.use(compression());
-
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
