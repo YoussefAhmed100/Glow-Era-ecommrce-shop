@@ -20,7 +20,7 @@ const updateProductInventory = async (cartItems) => {
       },
     },
   }));
-  await ProductModel.bulkWrite(bulkOptions,{});
+  await ProductModel.bulkWrite(bulkOptions, {});
 };
 
 // @desc create cash order
@@ -38,19 +38,19 @@ exports.createCashOrder = asynchandler(async (req, res, next) => {
 
   // 2)get order price depend on cart price
   const cartPrice = cart.totalPrice;
-  const totalOrderPrice = cartPrice +TAX_PRICE + SHIPPING_PRICE;
+  const totalOrderPrice = cartPrice + TAX_PRICE + SHIPPING_PRICE;
   // 3) create new order with defult pyment methode cash
   const newOrder = await orderModel.create({
     user: req.user._id,
     cartItems: cart.cartItems,
     shippingAddress: req.body.shippingAddress,
-    taxPrice:TAX_PRICE ,
-    shippingPrice:SHIPPING_PRICE,
+    taxPrice: TAX_PRICE,
+    shippingPrice: SHIPPING_PRICE,
     totalOrderPrice,
   });
   // 4) after create order decrement product quantity ,increment product sold depend on quantity
   if (newOrder) {
-   await updateProductInventory(cart.cartItems);
+    await updateProductInventory(cart.cartItems);
     //5) clear cart after order created
     await CartModel.findByIdAndDelete(req.params.cartId);
   }
@@ -128,7 +128,7 @@ exports.checkoutSession = asynchandler(async (req, res, next) => {
   const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
 
   // 3) Create checkout session
-  const name = req.user.fristName
+  const name = req.user.fristName;
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [
@@ -136,19 +136,21 @@ exports.checkoutSession = asynchandler(async (req, res, next) => {
         price_data: {
           currency: "egp",
           product_data: {
-            name:`Order for ${name} `,
+            name: `Order for ${name} `,
           },
           unit_amount: totalOrderPrice * 100, // Convert to cents
         },
         quantity: 1,
       },
     ],
+    //     success_url: `${req.protocol}://${req.get("host")}/success`,
+
     mode: "payment",
-    success_url: `${req.protocol}://${req.get("host")}/success`,
+    success_url: `${req.protocol}://glowera.netlify.app/success`,
     cancel_url: `${req.protocol}://${req.get("host")}/cart`,
     customer_email: req.user.email,
-    client_reference_id: String(req.params.cartId), 
-    metadata: req.body.shippingAddress || {}, 
+    client_reference_id: String(req.params.cartId),
+    metadata: req.body.shippingAddress || {},
   });
 
   // 4) Return checkout session in response
