@@ -40,12 +40,12 @@ Glow Era is a skincare product e-commerce backend that helps users find personal
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/glow-era-backend.git
+git clone https://github.com/YoussefAhmed100/Glow-Era-ecommrce-shop.git
 cd glow-era-backend
 npm install
 
 # Server
-### .env
+# .env
 PORT=8000
 NODE_ENV=development
 BASE_URL=http://localhost:8000
