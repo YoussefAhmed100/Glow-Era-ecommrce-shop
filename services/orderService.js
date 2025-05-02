@@ -147,7 +147,7 @@ exports.checkoutSession = asynchandler(async (req, res, next) => {
 
     mode: "payment",
     success_url: `${req.protocol}://glowera.netlify.app/success`,
-    cancel_url: `${req.protocol}://${req.get("host")}/cart`,
+    cancel_url: `${req.protocol}://glowera.netlify.app/cart`,
     customer_email: req.user.email,
     client_reference_id: String(req.params.cartId),
     metadata: req.body.shippingAddress || {},
